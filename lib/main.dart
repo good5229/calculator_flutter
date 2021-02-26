@@ -6,6 +6,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   static const String _title = 'Widget Example';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,15 +18,20 @@ class MyApp extends StatelessWidget {
 
 class WidgetApp extends StatefulWidget {
   WidgetApp({Key key}) : super(key: key);
+
   @override
   _WidgetExampleState createState() => _WidgetExampleState();
 }
 
-class _WidgetExampleState extends State<WidgetApp>{
+class _WidgetExampleState extends State<WidgetApp> {
+  String sum = '';
+  TextEditingController value1 = TextEditingController();
+  TextEditingController value2 = TextEditingController();
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar : AppBar(
+      appBar: AppBar(
         title: Text('Widget Example'),
       ),
       body: Container(
@@ -34,17 +40,34 @@ class _WidgetExampleState extends State<WidgetApp>{
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(15),
-                child: Text('Flutter'),
+                child: Text(
+                  '결과: $sum',
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
               Padding(
-                padding: EdgeInsets.only(left:20, right:20),
-                child: TextField(),
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: TextField(
+                    keyboardType: TextInputType.number, controller: value1),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: TextField(
+                    keyboardType: TextInputType.number, controller: value2),
               ),
               Padding(
                 padding: EdgeInsets.all(15),
-                child: RaisedButton(onPressed: (){
-
-                }),
+                child: RaisedButton(
+                    child: Row(
+                      children: <Widget>[Icon(Icons.add), Text('더하기')],
+                    ),
+                    color: Colors.amber,
+                    onPressed: () {
+                      setState(() {
+                        int result = int.parse(value1.value.text)+int.parse(value2.value.text);
+                        sum = '$result';
+                      });
+                    }),
               ),
             ],
           ),
